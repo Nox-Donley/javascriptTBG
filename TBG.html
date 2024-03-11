@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Adventure Game</title>
+    <style>
+        #gameImage {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HTML: Game content -->
+
+    <h2 id="roomTitle">Room Title</h2>
+    <img id="gameImage" src="" alt="Room Image">
+    <p id="roomDescription">Room Description</p>
+
+    <!-- User input -->
+    <input type="text" id="userInput" placeholder="Type your command">
+    <button onclick="processCommand()">Go</button>
+
+    <!-- JavaScript: Game logic -->
+
+    <script>
+        // Game rooms
+        var rooms = {
+            'start': {
+                'title': 'The Mysterious Dungeon',
+                'description': 'You are in a dark, cold dungeon. There are doors to the north and east.',
+                'image': 'start-room.jpg',
+                'directions': {
+                    'north': 'library',
+                    'east': 'laboratory',
+                    'south': 'dungeoncell'
+                }
+            },
+            'library': {
+                'title': 'The Ancient Library',
+                'description': 'You find yourself surrounded by dusty books. There\'s a door to the south.',
+                'image': 'library.jpg',
+                'directions': {
+                    'south': 'start',
+                    'east': 'hall1'
+                }
+            },
+            'laboratory': {
+                'title': 'The Alchemist\'s Laboratory',
+                'description': 'Strange potions bubble on the stove. There\'s a door to the west.',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'west': 'start',
+                    'north': 'hall1',
+                    'east': 'kitchen'
+                }
+            },
+            'hall1': {
+                'title': 'Elbow Hallway',
+                'description': 'a hall connecting the library and the laboratory',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'west': 'library',
+                    'south': 'laboratory'
+                }
+            },
+            'kitchen': {
+                'title': 'The Kitchen',
+                'description': 'a kitchen lined with pots and pans, theres a door the the west and south.',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'west': 'laboratory',
+                    'south': 'hall2'
+                }
+            },
+            'hall2': {
+                'title': 'Long Hall',
+                'description': 'a long hallway connecting the kitchen and storage, theres doors to the north and south',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'south': 'storage',
+                    'north': 'kitchen'
+                }
+            },
+            'storage': {
+                'title': 'Storage Room',
+                'description': 'A room filled almost entirely with boxes neatly organized, theres a door to the north',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'north': 'hall2'
+                }
+            },
+            'dungeoncell': {
+                'title': 'Dungeon cell',
+                'description': 'a keeping cell of sorts for prisoners, the exit is north',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'north': 'start'
+                }
+            }
+        };
+
+        var currentRoom = 'start'; // Starting room
+        updateRoom();
+
+        function processCommand() {
+            var command = document.getElementById('userInput').value.toLowerCase();
+            var directions = rooms[currentRoom].directions;
+
+            if (directions[command]) {
+                currentRoom = directions[command];
+                updateRoom();
+            } else {
+                alert('You cannot go that way.');
+            }
+
+            document.getElementById('userInput').value = ''; // Clear input field
+        }
+
+        function updateRoom() {
+            var room = rooms[currentRoom];
+            document.getElementById('roomTitle').innerText = room.title;
+            document.getElementById('roomDescription').innerText = room.description;
+            document.getElementById('gameImage').src = room.image;
+        }
+    </script>
+
+</body>
+</html>
